@@ -1,0 +1,59 @@
+import React from 'react';
+
+const WhatWeDoSection = () => {
+  const services = [
+    {
+      title: 'Weddings',
+      description: 'Creating unforgettable moments for your special day',
+      image: '/api/placeholder/400/400',
+      color: 'bg-amber-100'
+    },
+    {
+      title: 'Events',
+      description: 'Crafting memorable experiences for all occasions',
+      image: '/api/placeholder/400/400',
+      color: 'bg-blue-100'
+    },
+    {
+      title: 'Launches',
+      description: 'Making your product launches stand out',
+      image: '/api/placeholder/400/400',
+      color: 'bg-pink-200'
+    },
+    {
+      title: 'Fashion Shows',
+      description: 'Elevating fashion presentations with style',
+      image: '/api/placeholder/400/400',
+      color: 'bg-amber-100'
+    }
+  ];
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-16">
+      <h2 className="text-4xl font-bold text-center mb-12">What We Do</h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {services.map((service, index) => (
+          <div 
+            key={index}
+            className={${service.color} rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-105}
+          >
+            <div className="aspect-square overflow-hidden">
+              <img
+                src={service.image}
+                alt={service.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
+              <p className="text-gray-700">{service.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default WhatWeDoSection;
