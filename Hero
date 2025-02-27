@@ -1,0 +1,155 @@
+# Hero Page 
+
+import React, { useRef, useEffect } from 'react';
+import { ChevronDown, Play } from 'lucide-react';
+
+const HeroSection = () => {
+  // References for the marquees
+  const marqueeRef1 = useRef(null);
+  const marqueeRef2 = useRef(null);
+  
+  // Sample image URLs for events and fashion shows
+  const eventImages = [
+    '/api/placeholder/600/400', // Elegant wedding setup
+    '/api/placeholder/600/400', // Corporate event
+    '/api/placeholder/600/400', // Birthday celebration
+    '/api/placeholder/600/400', // Award ceremony
+    '/api/placeholder/600/400', // Product launch event
+    '/api/placeholder/600/400'  // Festival decoration
+  ];
+  
+  const fashionImages = [
+    '/api/placeholder/600/400', // Fashion runway
+    '/api/placeholder/600/400', // Model in evening gown
+    '/api/placeholder/600/400', // Fashion showcase
+    '/api/placeholder/600/400', // Designer collection
+    '/api/placeholder/600/400', // Backstage preparation
+    '/api/placeholder/600/400'  // Fashion event setup
+  ];
+
+  // Parallax scrolling effect for the marquees
+  useEffect(() => {
+    const handleScroll = () => {
+      if (marqueeRef1.current && marqueeRef2.current) {
+        marqueeRef1.current.style.transform = `translateX(${window.scrollY * 0.1}px)`;
+        marqueeRef2.current.style.transform = `translateX(${-window.scrollY * 0.1}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="relative h-screen w-full overflow-hidden">
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-black/50 z-20"></div>
+      
+      {/* Marquee backgrounds */}
+      <div className="absolute inset-0 flex flex-col justify-between overflow-hidden">
+        {/* Top marquee - moving right */}
+        <div className="relative h-1/2 overflow-hidden">
+          <div 
+            ref={marqueeRef1} 
+            className="absolute flex animate-marquee-slow whitespace-nowrap"
+          >
+            {eventImages.concat(eventImages).map((src, index) => (
+              <div key={`top-${index}`} className="h-full p-1">
+                <img 
+                  src={src} 
+                  alt={`Event image ${index}`} 
+                  className="h-full object-cover rounded-lg"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Bottom marquee - moving left */}
+        <div className="relative h-1/2 overflow-hidden">
+          <div 
+            ref={marqueeRef2} 
+            className="absolute flex animate-marquee-reverse-slow whitespace-nowrap"
+          >
+            {fashionImages.concat(fashionImages).map((src, index) => (
+              <div key={`bottom-${index}`} className="h-full p-1">
+                <img 
+                  src={src} 
+                  alt={`Fashion image ${index}`} 
+                  className="h-full object-cover rounded-lg"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      {/* Hero content */}
+      <div className="relative h-full flex flex-col items-center justify-center text-center text-white z-30 px-4">
+        <div className="animate-fade-in-up">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 tracking-tight">
+            Creating Magical Moments
+          </h1>
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-8">
+            Event Planning | Fashion Shows | Memorable Celebrations
+          </p>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            <button className="px-8 py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-full font-medium flex items-center gap-2 transform hover:scale-105 transition-all duration-300">
+              <Play size={20} />
+              Watch Showreel
+            </button>
+            <button className="px-8 py-3 bg-transparent border-2 border-white hover:bg-white/10 text-white rounded-full font-medium transform hover:scale-105 transition-all duration-300">
+              Explore Services
+            </button>
+          </div>
+        </div>
+        
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <ChevronDown size={32} />
+        </div>
+      </div>
+      
+      {/* CSS for marquee animations */}
+      <style jsx global>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        
+        @keyframes marquee-reverse {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        
+        .animate-marquee-slow {
+          animation: marquee 40s linear infinite;
+          min-width: 200%;
+        }
+        
+        .animate-marquee-reverse-slow {
+          animation: marquee-reverse 40s linear infinite;
+          min-width: 200%;
+        }
+        
+        @keyframes fade-in-up {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fade-in-up {
+          animation: fade-in-up 1s ease-out;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default HeroSection;
